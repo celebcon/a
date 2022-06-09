@@ -297,6 +297,14 @@ if (checkX < 0){checkX = 0; checkY = 0;}
 //output
 document.getElementById("demo").value = choicesArray;
 
+ var copyText = document.getElementById("demo");
+
+  /* Select the text field */
+  copyText.select();
+  copyText.setSelectionRange(0, 99999); /* For mobile devices */
+
+  /* Copy the text inside the text field */
+  navigator.clipboard.writeText(copyText.value);
 
 
 }//End of FUNCTION
@@ -304,7 +312,10 @@ document.getElementById("demo").value = choicesArray;
 
 </script>
 
-<input type="text" size="50" id="demo" value="Some text...">
+<input type="text" size="50" id="demo" value="">
+
+<button onclick="copyFunction()">Copy text</button>
+
 
 <img id="intro"  style="display:none; visibility:hidden;" src="intro.png" alt="">
 <img id="loc"  style="display:none; visibility:hidden;" src="loc.png" alt="">
