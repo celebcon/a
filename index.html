@@ -94,6 +94,7 @@ for(var i = 0; i < buttonArray.length ; i++) {
 			buttonArray[i].checked = true;
 		
 			choicesArray.push(buttonArray[i].name);
+			if (scene == 4){buttonArray = []; scene = 5;}
 			if (scene == 3){buttonArray = []; scene = 4;}
 			if (scene == 2){buttonArray = []; scene = 3;}
 			if (scene == 1){buttonArray = []; scene = 2;}
@@ -177,6 +178,37 @@ buttonArray.push(new button(600, 160,790,340,2, "Missionary"));
 
 }
 
+
+if (scene == 5 && moveX == 2000){
+
+if (canvasX > 140 && canvasX < 190){
+	if (canvasY > 150 && canvasY < 210){scrollX = -800;}
+}
+
+if (canvasX > 20 && canvasX < 80){
+	if (canvasY > 150 && canvasY < 210){scrollX = 0;}
+}
+
+}
+
+
+if (scene == 5){
+
+if (scrollX == 0){
+buttonArray = [];
+buttonArray.push(new button(270, 50,450,230,0, "Seduction Potion"));
+buttonArray.push(new button(560, 50,740,230,0, "Longevity Potion"));
+}
+
+if (scrollX == -800){
+buttonArray = [];
+buttonArray.push(new button(270, 50,450,230,0, "Pleasure Potion"));
+buttonArray.push(new button(560, 50,740,230,0, "Nature Potion"));
+}
+
+}
+
+
 }//END OF CLICKFUNC
 
 var myVar = setInterval(move, 20);
@@ -185,7 +217,7 @@ var scene = 0;
 
 var moveX = 0; 
 
-var points = 6; 
+var points = 10; 
 
 function move() {
 
@@ -205,11 +237,15 @@ ctx.drawImage(fore, 0, 1200 - moveX,800,400);
 
 ctx.drawImage(main, 0, 1600 - moveX,800,400);
 
+ctx.drawImage(pot, scrollX, 2000 - moveX,800,400);
+ctx.drawImage(potPT2, 800 + scrollX, 2000 - moveX,800,400);
+
 
 if (scene == 1 && moveX < 400){moveX = moveX + 10;}
 if (scene == 2 && moveX < 800){moveX = moveX + 10;}
 if (scene == 3 && moveX < 1200){moveX = moveX + 10;}
 if (scene == 4 && moveX < 1600){moveX = moveX + 10;}
+if (scene == 5 && moveX < 2000){moveX = moveX + 10;}
 
 //Prototypes
 for(var i = 0; i < buttonArray.length ; i++) {
@@ -219,15 +255,14 @@ for(var i = 0; i < buttonArray.length ; i++) {
 
 
 ctx.font = "30px Arial";
-ctx.fillStyle = "red";
+ctx.fillStyle = "cyan";
 ctx.fillText("X: " + canvasX,3,30);
 ctx.fillText("Y: " + canvasY,3,60);
-ctx.fillText(scrollX,400,60);
+ctx.fillText("scrollX " + scrollX,400,60);
 
 ctx.fillText("Points: " + points,3,90);
 ctx.fillText("Scene: " + scene,300,90);
 
-ctx.fillText(choicesArray,3,120);
 
 
 //output
@@ -250,5 +285,7 @@ document.getElementById("demo").value = choicesArray;
 <img id="celebPT1"  style="display:none; visibility:hidden;" src="celebPT1.png" alt="">
 <img id="celebPT3"  style="display:none; visibility:hidden;" src="celebPT3.png" alt="">
 <img id="main"  style="display:none; visibility:hidden;" src="main.png" alt="">
+<img id="pot"  style="display:none; visibility:hidden;" src="pot.png" alt="">
+<img id="potPT2"  style="display:none; visibility:hidden;" src="potPT2.png" alt="">
 
 </html> 
