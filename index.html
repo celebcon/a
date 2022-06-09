@@ -75,22 +75,52 @@ var buttonArray = [];
 
 var choicesArray = []; 
 
+
+var scrollX = 0; 
+
+
 function clickfunc(){
+
 if (scene == 0 && moveX < 400){scene = scene + 1;}
 
 for(var i = 0; i < buttonArray.length ; i++) {
         if (canvasX > buttonArray[i].x && canvasX < buttonArray[i].x + buttonArray[i].w){
-		if (canvasY > buttonArray[i].y && canvasY < buttonArray[i].y + buttonArray[i].h && buttonArray[i].bought == false){
-		points = points - buttonArray[i].c; buttonArray[i].bought = true;
-	    buttonArray[i].checked = true;
-		choicesArray.push(buttonArray[i].name);
-		if (scene == 2){buttonArray = []; scene = 3;}
-		if (scene == 1){buttonArray = []; scene = 2;}
-
-		}
+			if (canvasY > buttonArray[i].y && canvasY < buttonArray[i].y + buttonArray[i].h && buttonArray[i].bought == false){
+				
+			points = points - buttonArray[i].c; 
+			
+			if (points >= 0){
+			buttonArray[i].bought = true;
+			buttonArray[i].checked = true;
+		
+			choicesArray.push(buttonArray[i].name);
+			if (scene == 3){buttonArray = []; scene = 4;}
+			if (scene == 2){buttonArray = []; scene = 3;}
+			if (scene == 1){buttonArray = []; scene = 2;}
+			
+			}
+			
+			if (points < 0){points = points + buttonArray[i].c; }
+		
+           }
 		}
 		
-        
+}
+	
+
+if (scene == 2 && moveX == 800){
+
+   if (scrollX > -800){
+	if (canvasX > 480 && canvasX < 530){
+	if (canvasY > 10 && canvasY < 80){scrollX = scrollX - 800;}
+	}
+   }
+	
+	if (scrollX < 800){
+	if (canvasX > 670 && canvasX < 730){
+	if (canvasY > 10 && canvasY < 80){scrollX = scrollX + 800;}
+	}
+	}
 }
 
 if (scene == 1){
@@ -100,7 +130,8 @@ buttonArray.push(new button(414, 177,562,317,2, "Hotel"));
 buttonArray.push(new button(595, 177,740,317,3, "Penthouse"));
 }
 
-if (scene == 2){
+if (scene == 2 && scrollX == 0){
+buttonArray = [];
 buttonArray.push(new button(8, 100,188,340,2, "Hailee Steinfeld"));
 buttonArray.push(new button(206, 100,392,340,1, "Dakota Fanning"));
 buttonArray.push(new button(411, 100,595,340,2, "Eiza Gonzalez"));
@@ -108,17 +139,45 @@ buttonArray.push(new button(612, 100,793,340,1, "Heidi Klum"));
 
 }
 
+if (scene == 2 && scrollX == -800){
+buttonArray = [];
+buttonArray.push(new button(8, 100,188,340,1, "Bryce Dallas Howard"));
+buttonArray.push(new button(206, 100,392,340,2, "Barbara Palvin"));
+buttonArray.push(new button(411, 100,595,340,2, "Isla Fisher"));
+buttonArray.push(new button(612, 100,793,340,1, "Shailene Woodley"));
+
+}
+
+if (scene == 2 && scrollX == 800){
+buttonArray = [];
+buttonArray.push(new button(8, 100,188,340,1, "Aulil Cravalho"));
+buttonArray.push(new button(206, 100,392,340,1, "Kirsten Dunst"));
+buttonArray.push(new button(411, 100,595,340,2, "Billie Eilish"));
+buttonArray.push(new button(612, 100,793,340,2, "Lili Reinhart"));
+
+}
+
+
 
 
 if (scene == 3){
-buttonArray.push(new button(0, 162,184,250,1, "Lap Dance"));
-buttonArray.push(new button(200, 160,184,250,2, "Hand Job"));
-buttonArray.push(new button(410, 160,184,250,3, "Blowjob"));
-buttonArray.push(new button(610, 160,184,250,3, "Tit Fuck"));
+buttonArray.push(new button(0, 162,184,340,1, "Lap Dance"));
+buttonArray.push(new button(202, 162,386,340,2, "Hand Job"));
+buttonArray.push(new button(400, 162,592,340,3, "Blowjob"));
+buttonArray.push(new button(600, 160,790,340,3, "Tit Fuck"));
 
 }
 
+
+if (scene == 4){
+buttonArray.push(new button(0, 162,184,340,3, "Anal"));
+buttonArray.push(new button(202, 162,386,340,2, "Cowgirl"));
+buttonArray.push(new button(400, 162,592,340,3, "Doggystyle"));
+buttonArray.push(new button(600, 160,790,340,2, "Missionary"));
+
 }
+
+}//END OF CLICKFUNC
 
 var myVar = setInterval(move, 20);
 
@@ -126,7 +185,7 @@ var scene = 0;
 
 var moveX = 0; 
 
-var points = 100; 
+var points = 6; 
 
 function move() {
 
@@ -138,13 +197,19 @@ ctx.fillRect(0,0, 800, 400);
 
 ctx.drawImage(intro, 0, 0 - moveX,800,400);
 ctx.drawImage(loc, 0, 400 - moveX,800,400);
-ctx.drawImage(celeb, 0, 800 - moveX,800,400);
+ctx.drawImage(celeb, 0 + scrollX, 800 - moveX,800,400);
+ctx.drawImage(celebPT1, 800 + scrollX, 800 - moveX,800,400);
+ctx.drawImage(celebPT3, -800 + scrollX, 800 - moveX,800,400);
+
 ctx.drawImage(fore, 0, 1200 - moveX,800,400);
+
+ctx.drawImage(main, 0, 1600 - moveX,800,400);
 
 
 if (scene == 1 && moveX < 400){moveX = moveX + 10;}
 if (scene == 2 && moveX < 800){moveX = moveX + 10;}
 if (scene == 3 && moveX < 1200){moveX = moveX + 10;}
+if (scene == 4 && moveX < 1600){moveX = moveX + 10;}
 
 //Prototypes
 for(var i = 0; i < buttonArray.length ; i++) {
@@ -157,7 +222,7 @@ ctx.font = "30px Arial";
 ctx.fillStyle = "red";
 ctx.fillText("X: " + canvasX,3,30);
 ctx.fillText("Y: " + canvasY,3,60);
-ctx.fillText(moveX,400,60);
+ctx.fillText(scrollX,400,60);
 
 ctx.fillText("Points: " + points,3,90);
 ctx.fillText("Scene: " + scene,300,90);
@@ -175,12 +240,15 @@ document.getElementById("demo").value = choicesArray;
 
 </script>
 
-<input type="text" id="demo" value="Some text...">
+<input type="text" size="50" id="demo" value="Some text...">
 
 <img id="intro"  style="display:none; visibility:hidden;" src="intro.png" alt="">
 <img id="loc"  style="display:none; visibility:hidden;" src="loc.png" alt="">
 <img id="check"  style="display:none; visibility:hidden;" src="check.png" alt="">
 <img id="fore"  style="display:none; visibility:hidden;" src="fore.png" alt="">
 <img id="celeb"  style="display:none; visibility:hidden;" src="celeb.png" alt="">
+<img id="celebPT1"  style="display:none; visibility:hidden;" src="celebPT1.png" alt="">
+<img id="celebPT3"  style="display:none; visibility:hidden;" src="celebPT3.png" alt="">
+<img id="main"  style="display:none; visibility:hidden;" src="main.png" alt="">
 
 </html> 
