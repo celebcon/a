@@ -43,7 +43,8 @@ this.sound.pause();
 }   
 }
 
-backtrack = new sound("sounds/backtrack.mp3");
+foreSound = new sound("sounds/foreSound.mp3");
+selectSound = new sound("sounds/selected.mp3");
 
 var button = function(x,y,endx,endy,c,name) {
     this.x = x;
@@ -62,7 +63,7 @@ button.prototype.draw = function() {
     ctx.fillStyle = "red"; 
 	ctx.strokeStyle = "red"; 
 	ctx.lineWidth = 5;
-    ctx.strokeRect(this.x, this.y, this.w, this.h);
+    //ctx.strokeRect(this.x, this.y, this.w, this.h);
 	
 
 };
@@ -78,7 +79,9 @@ var choicesArray = [];
 
 var scrollX = 0; 
 
+var scene4count = 0; 
 
+var checkArray = [];
 function clickfunc(){
 
 if (scene == 0 && moveX < 400){scene = scene + 1;}
@@ -92,12 +95,19 @@ for(var i = 0; i < buttonArray.length ; i++) {
 			if (points >= 0){
 			buttonArray[i].bought = true;
 			buttonArray[i].checked = true;
-		
+			
+			checkArray = [];
+			checkX = 100; checkY = 100;
+			checkArray.push(buttonArray[i].x);
+			checkArray.push(buttonArray[i].y);
+
+		    if (scene == 4){scene4count = scene4count + 1;}
 			choicesArray.push(buttonArray[i].name);
-			if (scene == 4){buttonArray = []; scene = 5;}
-			if (scene == 3){buttonArray = []; scene = 4;}
-			if (scene == 2){buttonArray = []; scene = 3;}
-			if (scene == 1){buttonArray = []; scene = 2;}
+			if (scene == 5){buttonArray = []; scene = 6; selectSound.play();}
+			if (scene == 4 && scene4count > 1){buttonArray = []; scene = 5; selectSound.play();}
+			if (scene == 3){buttonArray = []; scene = 4; selectSound.play();}
+			if (scene == 2){buttonArray = []; scene = 3; selectSound.play();}
+			if (scene == 1){buttonArray = []; scene = 2; selectSound.play();}
 			
 			}
 			
@@ -217,11 +227,13 @@ var scene = 0;
 
 var moveX = 0; 
 
-var points = 10; 
+var points = 12; 
+
+var checkX = 100;
+
+var checkY = 100;
 
 function move() {
-
-//backtrack.play();
 
 //BG
 ctx.fillStyle = "black";
@@ -240,12 +252,14 @@ ctx.drawImage(main, 0, 1600 - moveX,800,400);
 ctx.drawImage(pot, scrollX, 2000 - moveX,800,400);
 ctx.drawImage(potPT2, 800 + scrollX, 2000 - moveX,800,400);
 
+ctx.drawImage(end, 0, 2400 - moveX,800,400);
 
 if (scene == 1 && moveX < 400){moveX = moveX + 10;}
 if (scene == 2 && moveX < 800){moveX = moveX + 10;}
 if (scene == 3 && moveX < 1200){moveX = moveX + 10;}
 if (scene == 4 && moveX < 1600){moveX = moveX + 10;}
 if (scene == 5 && moveX < 2000){moveX = moveX + 10;}
+if (scene == 6 && moveX < 2400){moveX = moveX + 10;}
 
 //Prototypes
 for(var i = 0; i < buttonArray.length ; i++) {
@@ -254,16 +268,31 @@ for(var i = 0; i < buttonArray.length ; i++) {
 }
 
 
+if (scene > 0 && scene < 5){
+ctx.fillStyle = "black";
+ctx.fillRect(0,0, 150, 50);
+
 ctx.font = "30px Arial";
-ctx.fillStyle = "cyan";
-ctx.fillText("X: " + canvasX,3,30);
-ctx.fillText("Y: " + canvasY,3,60);
-ctx.fillText("scrollX " + scrollX,400,60);
+ctx.fillStyle = "white";
+ctx.fillText("Points: " + points,3,30);}
 
-ctx.fillText("Points: " + points,3,90);
-ctx.fillText("Scene: " + scene,300,90);
+//ctx.fillText("X: " + canvasX,3,30);
+//ctx.fillText("Y: " + canvasY,3,60);
+ctx.font = "30px Arial";
+ctx.fillStyle = "white";
+ctx.fillText(checkArray,400,60);
+
+//ctx.fillText("Points: " + points,3,90);
+//ctx.fillText("Scene: " + scene,300,90);
+
+//ctx.fillText("scene4count " + scene4count,600,90);
 
 
+ctx.drawImage(check, checkArray[0],checkArray[1],checkX,checkY);
+checkX = checkX - 3;
+checkY = checkY - 3; 
+
+if (checkX < 0){checkX = 0; checkY = 0;}
 
 //output
 document.getElementById("demo").value = choicesArray;
@@ -287,5 +316,6 @@ document.getElementById("demo").value = choicesArray;
 <img id="main"  style="display:none; visibility:hidden;" src="main.png" alt="">
 <img id="pot"  style="display:none; visibility:hidden;" src="pot.png" alt="">
 <img id="potPT2"  style="display:none; visibility:hidden;" src="potPT2.png" alt="">
+<img id="end"  style="display:none; visibility:hidden;" src="end.png" alt="">
 
 </html> 
