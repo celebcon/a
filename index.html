@@ -1,0 +1,146 @@
+<html>
+
+<body style="background-color:lightblue;">
+
+<canvas id="myCanvas" onload = 'move()' onclick = "clickfunc()" width="800" height="400" style=" padding-left: 0;
+    padding-right: 0;
+	
+    margin-left: auto;
+    margin-right: auto;
+	margin-top: 0px;
+    display: block;border:3px solid white;">
+</canvas>
+
+</body>
+
+
+<script>
+var canvas = document.getElementById("myCanvas");
+var ctx = canvas.getContext("2d");
+ctx.font = "16px Arial";
+
+var canvasX = 0; 
+var canvasY = 0; 
+canvas.addEventListener("mousemove", function(e) { 
+    var cRect = canvas.getBoundingClientRect();              // Gets the CSS positions along with width/height
+    canvasX = Math.round(e.clientX - cRect.left);        // Subtract the 'left' of the canvas from the X/Y
+    canvasY = Math.round(e.clientY - cRect.top);         // positions to get make (0,0) the top left of the    
+});
+
+
+function sound(src) {
+ this.sound = document.createElement("audio");
+this.sound.src = src;
+this.sound.setAttribute("preload", "auto");
+this.sound.setAttribute("controls", "none");
+this.sound.style.display = "none";
+document.body.appendChild(this.sound);
+this.play = function(){
+this.sound.play();
+}
+this.stop = function(){
+this.sound.pause();
+}   
+}
+
+backtrack = new sound("sounds/backtrack.mp3");
+
+var button = function(x,y,w,h,c,name) {
+    this.x = x;
+    this.y = y;
+    this.w = w;
+    this.h = h;
+	this.c = c;
+	this.bought = false; 
+	this.name = name; 
+	this.checked = false;
+};
+
+button.prototype.draw = function() {
+    ctx.fillStyle = "red"; 
+    //ctx.fillRect(this.x, this.y, this.w, this.h);
+	
+	if (this.checked == true){ctx.drawImage(check,this.x + 20,this.y + 30,100,100);}
+
+
+};
+
+button.prototype.move = function() {
+		
+};
+
+var buttonArray = [];
+
+
+
+function clickfunc(){
+if (scene == 0 && moveX < 400){scene = scene + 1;}
+
+for(var i = 0; i < buttonArray.length ; i++) {
+        if (canvasX > buttonArray[i].x && canvasX < buttonArray[i].x + buttonArray[i].w){
+		if (canvasY > buttonArray[i].y && canvasY < buttonArray[i].y + buttonArray[i].h && buttonArray[i].bought == false){
+		points = points - buttonArray[i].c; buttonArray[i].bought = true;
+	    buttonArray[i].checked = true;
+		if (scene == 1){scene = 2;}
+		
+		}
+		}
+		
+        
+}
+
+if (scene == 1){
+buttonArray.push(new button(50, 177,160,300,0, "beach"));
+buttonArray.push(new button(230, 177,160,300,1, "Motel"));
+buttonArray.push(new button(414, 177,160,300,2, "Hotel"));
+buttonArray.push(new button(595, 177,160,300,3, "Penthouse"));
+}
+}
+
+var myVar = setInterval(move, 20);
+
+var scene = 0;
+
+var moveX = 0; 
+
+var points = 100; 
+
+function move() {
+
+//backtrack.play();
+
+//BG
+ctx.fillStyle = "black";
+ctx.fillRect(0,0, 800, 400);
+
+ctx.drawImage(intro, 0, 0 - moveX,800,400);
+ctx.drawImage(loc, 0, 400 - moveX,800,400);
+
+
+if (scene == 1 && moveX < 400){moveX = moveX + 10;}
+
+//Prototypes
+for(var i = 0; i < buttonArray.length ; i++) {
+        buttonArray[i].draw();
+        buttonArray[i].move();
+}
+
+
+ctx.font = "30px Arial";
+ctx.fillStyle = "white";
+ctx.fillText("X: " + canvasX,3,30);
+ctx.fillText("Y: " + canvasY,3,60);
+ctx.fillText("Points: " + points,3,90);
+
+
+
+}//End of FUNCTION
+
+
+</script>
+
+<img id="intro"  style="display:none; visibility:hidden;" src="intro.png" alt="">
+<img id="loc"  style="display:none; visibility:hidden;" src="loc.png" alt="">
+<img id="check"  style="display:none; visibility:hidden;" src="check.png" alt="">
+
+</html> 
