@@ -119,6 +119,7 @@ for(var i = 0; i < buttonArray.length ; i++) {
 		    if (scene == 4){scene4count = scene4count + 1;}
 			choicesArray.push(buttonArray[i].name);
 			if (scene == 5){buttonArray = []; scene = 6; selectSound.play();}
+			if (scene == 4 && points == 0){buttonArray = []; scene = 5; selectSound.play(); scrollX = 0;}
 			if (scene == 4 && scene4count > 1){buttonArray = []; scene = 5; selectSound.play(); scrollX = 0;}
 			if (scene == 3){buttonArray = []; scene = 4; selectSound.play();}
 			if (scene == 2){buttonArray = []; scene = 3; selectSound.play();}
@@ -257,7 +258,7 @@ var scene = 0;
 
 var moveX = 0; 
 
-var points = 13; 
+var points = 10; 
 
 var checkX = 100;
 
@@ -306,7 +307,8 @@ ctx.fillRect(0,0, 150, 50);
 
 ctx.font = "30px Arial";
 ctx.fillStyle = "white";
-ctx.fillText("Points: " + points,3,30);}
+ctx.fillText("Points: " + points,3,30);
+}
 
 //ctx.fillText("X: " + canvasX,3,30);
 //ctx.fillText("Y: " + canvasY,3,60);
