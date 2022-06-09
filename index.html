@@ -1,18 +1,19 @@
 <html>
 
 <style>
-.button {
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  padding: 15px 32px;
-  text-align: center;
-  text-decoration: none;
-  display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  cursor: pointer;
+.defaultText{
+    padding: 0;
+    height: 100px;
+    position: relative;
+    left: 0;
+    outline: none;
+    border: 1px solid #cdcdcd;
+    border-color: rgba(0,0,0,.15);
+    background-color: white;
+    font-size: 16px;
+	      white-space: pre-wrap;
 }
+
 </style>
 <body style="background-color:lightblue;">
 
@@ -118,11 +119,25 @@ for(var i = 0; i < buttonArray.length ; i++) {
 		    if (scene == 4){scene4count = scene4count + 1;}
 			choicesArray.push(buttonArray[i].name);
 			if (scene == 5){buttonArray = []; scene = 6; selectSound.play();}
-			if (scene == 4 && scene4count > 1){buttonArray = []; scene = 5; selectSound.play();}
+			if (scene == 4 && scene4count > 1){buttonArray = []; scene = 5; selectSound.play(); scrollX = 0;}
 			if (scene == 3){buttonArray = []; scene = 4; selectSound.play();}
 			if (scene == 2){buttonArray = []; scene = 3; selectSound.play();}
 			if (scene == 1){buttonArray = []; scene = 2; selectSound.play();}
 			
+				if (scene == 6){
+			    for(var i = 0; i < choicesArray.length ; i++) {
+				if (i == 0){printout += "Location: "}
+				if (i == 1){printout += "Celebrity: "}
+				if (i == 2){printout += "Foreplay: "}
+				if (i == 3){printout += "Sex Acts: "}
+				if (i == 4){printout += "and "}
+				if (i == 5){printout += "Potion: "}
+				printout += choicesArray[i] + '  ';
+				}
+				
+				copyToClipboard(printout);
+
+				}
 			}
 			
 			if (points < 0){points = points + buttonArray[i].c; }
@@ -130,6 +145,7 @@ for(var i = 0; i < buttonArray.length ; i++) {
            }
 		}
 		
+	
 }
 	
 
@@ -247,6 +263,8 @@ var checkX = 100;
 
 var checkY = 100;
 
+var printout = ""; 
+
 function move() {
 
 //BG
@@ -309,28 +327,26 @@ checkY = checkY - 3;
 if (checkX < 0){checkX = 0; checkY = 0;}
 
 //output
-document.getElementById("demo").value = choicesArray;
+document.getElementById("demo").value = printout;
 
-if (scene > 5){
- var copyText = document.getElementById("demo");
 
-  /* Select the text field */
-  copyText.select();
-  copyText.setSelectionRange(0, 99999); /* For mobile devices */
-
-  /* Copy the text inside the text field */
-  navigator.clipboard.writeText(copyText.value);
-
-}
 
 }//End of FUNCTION
 
 
+function copyToClipboard(text) {
+   const elem = document.createElement('textarea');
+   elem.value = text;
+   document.body.appendChild(elem);
+   elem.select();
+   document.execCommand('copy');
+   document.body.removeChild(elem);
+}
+
+
 </script>
 
-<input type="text" size="80" id="demo" value="">
-
-<button class = "button" onclick="copyFunction()">COPY</button>
+<input class = "defaultText" type="text" size="80" id="demo" value="">
 
 
 <img id="intro"  style="display:none; visibility:hidden;" src="intro.png" alt="">
