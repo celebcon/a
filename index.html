@@ -119,7 +119,7 @@ for(var i = 0; i < buttonArray.length ; i++) {
 		    if (scene == 4){scene4count = scene4count + 1;}
 			choicesArray.push(buttonArray[i].name);
 			if (scene == 5){buttonArray = []; scene = 6; selectSound.play();}
-			if (scene == 4 && points == 0){buttonArray = []; scene = 5; selectSound.play(); scrollX = 0;}
+			if (scene == 4 && points < 2){buttonArray = []; scene = 5; selectSound.play(); scrollX = 0;}
 			if (scene == 4 && scene4count > 1){buttonArray = []; scene = 5; selectSound.play(); scrollX = 0;}
 			if (scene == 3){buttonArray = []; scene = 4; selectSound.play();}
 			if (scene == 2){buttonArray = []; scene = 3; selectSound.play();}
