@@ -1,5 +1,19 @@
 <html>
 
+<style>
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+</style>
 <body style="background-color:lightblue;">
 
 <canvas id="myCanvas" onload = 'move()' onclick = "clickfunc()" width="800" height="400" style=" padding-left: 0;
@@ -227,7 +241,7 @@ var scene = 0;
 
 var moveX = 0; 
 
-var points = 12; 
+var points = 13; 
 
 var checkX = 100;
 
@@ -280,7 +294,7 @@ ctx.fillText("Points: " + points,3,30);}
 //ctx.fillText("Y: " + canvasY,3,60);
 ctx.font = "30px Arial";
 ctx.fillStyle = "white";
-ctx.fillText(checkArray,400,60);
+//ctx.fillText(checkArray,400,60);
 
 //ctx.fillText("Points: " + points,3,90);
 //ctx.fillText("Scene: " + scene,300,90);
@@ -297,6 +311,7 @@ if (checkX < 0){checkX = 0; checkY = 0;}
 //output
 document.getElementById("demo").value = choicesArray;
 
+if (scene > 5){
  var copyText = document.getElementById("demo");
 
   /* Select the text field */
@@ -306,15 +321,16 @@ document.getElementById("demo").value = choicesArray;
   /* Copy the text inside the text field */
   navigator.clipboard.writeText(copyText.value);
 
+}
 
 }//End of FUNCTION
 
 
 </script>
 
-<input type="text" size="50" id="demo" value="">
+<input type="text" size="80" id="demo" value="">
 
-<button onclick="copyFunction()">Copy text</button>
+<button class = "button" onclick="copyFunction()">COPY</button>
 
 
 <img id="intro"  style="display:none; visibility:hidden;" src="intro.png" alt="">
